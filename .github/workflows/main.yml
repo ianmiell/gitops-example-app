@@ -3,12 +3,12 @@
 name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# events but only for the main branch
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -33,9 +33,9 @@ jobs:
         echo test, and deploy your project.
 
     - name: Copy Repo Files
-      uses: actions/checkout@master
+      uses: actions/checkout@main
 
-     #This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL 
+     #This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL
      #which you can reference in subsequent steps
     - name: Publish Docker Image to GPR
       uses: machine-learning-apps/gpr-docker-publish@master
@@ -48,7 +48,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # This second step is illustrative and shows how to reference the 
+    # This second step is illustrative and shows how to reference the
     # output variables.  This is completely optional.
     - name: Show outputs of previous step
       run: |
