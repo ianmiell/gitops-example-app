@@ -51,4 +51,4 @@ jobs:
         token: ${{ secrets.EXAMPLE_GITOPS_DEPLOY_TRIGGER }}
         repository: ianmiell/example-gitops-deploy
         event-type: example-gitops-app-trigger
-        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "image": "${{ steps.docker.outputs.IMAGE_SHA_NAME }}"}'
