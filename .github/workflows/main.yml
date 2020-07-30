@@ -50,5 +50,5 @@ jobs:
       with:
         token: ${{ secrets.EXAMPLE_GITOPS_DEPLOY_TRIGGER }}
         repository: ianmiell/example-gitops-deploy
-        event-type: my-event
+        event-type: example-gitops-app-trigger
         client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
