@@ -22,26 +22,13 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
-
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
-
-    - name: Copy Repo Files
-      uses: actions/checkout@main
-
      #This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL
      #which you can reference in subsequent steps
     - name: Publish Docker Image to GPR
       uses: machine-learning-apps/gpr-docker-publish@master
       id: docker
       with:
-        IMAGE_NAME: 'gitops-app'
+        IMAGE_NAME: 'example-gitops-app'
         # TAG: 'my-optional-tag-name'
         # DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
         # BUILD_CONTEXT: 'argo/'
@@ -57,3 +44,10 @@ jobs:
       env:
         VAR1: ${{ steps.docker.outputs.IMAGE_SHA_NAME }}
         VAR2: ${{ steps.docker.outputs.IMAGE_URL }}
+
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.EXAMPLE_GITOPS_DEPLOY_TRIGGER }}
+        event-type: my-event
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
