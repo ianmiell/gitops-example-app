@@ -8,7 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Check Out The Repository
+      uses: actions/checkout@v2
     - name: Publish Docker Image to GPR
       uses: machine-learning-apps/gpr-docker-publish@master
       id: docker
