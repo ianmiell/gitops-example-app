@@ -1,54 +1,25 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the main branch
+name: Build and Update
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-     #This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL
-     #which you can reference in subsequent steps
     - name: Publish Docker Image to GPR
       uses: machine-learning-apps/gpr-docker-publish@master
       id: docker
       with:
         IMAGE_NAME: 'example-gitops-app'
-        # TAG: 'my-optional-tag-name'
-        # DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
-        # BUILD_CONTEXT: 'argo/'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    # This second step is illustrative and shows how to reference the
-    # output variables.  This is completely optional.
-    - name: Show outputs of previous step
-      run: |
-        echo "The name:tag of the Docker Image is: $VAR1"
-        echo "The docker image is hosted at $VAR2"
-      env:
-        VAR1: ${{ steps.docker.outputs.IMAGE_SHA_NAME }}
-        VAR2: ${{ steps.docker.outputs.IMAGE_URL }}
-
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
         token: ${{ secrets.EXAMPLE_GITOPS_DEPLOY_TRIGGER }}
-        repository: ianmiell/example-gitops-deploy
+        repository: ${GITHUB_ACTOR}/example-gitops-deploy
         event-type: example-gitops-app-trigger
-        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "image": "${{ steps.docker.outputs.IMAGE_SHA_NAME }}"}'
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "image": "${{ steps.docker.outputs.IMAGE_SHA_NAME }}", "url": "${{ steps.docker.outputs.IMAGE_URL }}"}'
