@@ -20,6 +20,6 @@ jobs:
       uses: peter-evans/repository-dispatch@v1
       with:
         token: ${{ secrets.EXAMPLE_GITOPS_DEPLOY_TRIGGER }}
-        repository: ${GITHUB_ACTOR}/example-gitops-deploy
+        repository: ${{ jobs.build.env.GITHUB_ACTOR }}/example-gitops-deploy
         event-type: example-gitops-app-trigger
         client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "image": "${{ steps.docker.outputs.IMAGE_SHA_NAME }}", "url": "${{ steps.docker.outputs.IMAGE_URL }}"}'
