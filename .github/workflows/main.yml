@@ -14,13 +14,13 @@ jobs:
       uses: machine-learning-apps/gpr-docker-publish@master
       id: docker
       with:
-        IMAGE_NAME: 'example-gitops-app'
+        IMAGE_NAME: 'gitops-example-app'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
         token: ${{ secrets.EXAMPLE_GITOPS_DEPLOY_TRIGGER }}
-        repository: ianmiell/example-gitops-deploy
-        event-type: example-gitops-app-trigger
+        repository: ianmiell/gitops-example-deploy
+        event-type: gitops-example-app-trigger
         client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "image": "${{ steps.docker.outputs.IMAGE_SHA_NAME }}", "url": "${{ steps.docker.outputs.IMAGE_URL }}"}'
