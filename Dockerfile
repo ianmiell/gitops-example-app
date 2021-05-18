@@ -1,2 +1,2 @@
 FROM python:3
-RUN /bin/sh -c "echo 'Hello world' > index.html"
+RUN /bin/sh -c "echo 'Hello course attendees' > index.html"
