@@ -17,10 +17,11 @@ jobs:
         IMAGE_NAME: 'gitops-example-app'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: docker login
-      env:
-        DOCKER_USER: imiell
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+    - name: Log in to Docker Hub
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        username: imiell
+        password: ${{secrets.DOCKER_PASSWORD}}
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
