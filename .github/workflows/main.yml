@@ -34,6 +34,9 @@ jobs:
         context: .
         push: true
         tags: 123456abcdef
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
         token: ${{ secrets.EXAMPLE_GITOPS_DEPLOY_TRIGGER }}
         repository: ianmiell/gitops-example-deploy
         event-type: gitops-example-app-trigger
