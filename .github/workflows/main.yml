@@ -10,13 +10,6 @@ jobs:
     steps:
     - name: Check Out The Repository
       uses: actions/checkout@v2
-    - name: Publish Docker Image to GPR
-      uses: machine-learning-apps/gpr-docker-publish@master
-      id: docker
-      with:
-        IMAGE_NAME: 'gitops-example-app'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Log in to Docker Hub
       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
       with:
@@ -34,7 +27,7 @@ jobs:
         context: .
         push: true
         #tags: ${{ steps.meta.outputs.tags }}
-        tags: imiell/gitops-example-app:123456
+        tags: imiell/gitops-example-app:${{ github.sha }}
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
