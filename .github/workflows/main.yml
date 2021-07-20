@@ -26,7 +26,6 @@ jobs:
       with:
         context: .
         push: true
-        #tags: ${{ steps.meta.outputs.tags }}
         tags: imiell/gitops-example-app:${{ github.sha }}
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
