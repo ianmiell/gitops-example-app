@@ -15,11 +15,6 @@ jobs:
       with:
         username: ${{secrets.DOCKER_USER}}
         password: ${{secrets.DOCKER_PASSWORD}}
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-      with:
-        images: ${{secrets.DOCKER_USER}}/gitops-example-app
     - name: Build and push Docker image
       id: docker_build
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
@@ -33,4 +28,4 @@ jobs:
         token: ${{ secrets.EXAMPLE_GITOPS_DEPLOY_TRIGGER }}
         repository: ianmiell/gitops-example-deploy
         event-type: gitops-example-app-trigger
-        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "image": "${{ steps.docker.outputs.IMAGE_SHA_NAME }}", "url": "${{ steps.docker.outputs.IMAGE_URL }}"}'
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
