@@ -17,6 +17,22 @@ jobs:
         IMAGE_NAME: 'gitops-example-app'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: docker login
+      env:
+        DOCKER_USER: imiell
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      with:
+        images: imiell/gitops-example-app
+    - name: Build and push Docker image
+      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
