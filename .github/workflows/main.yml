@@ -33,7 +33,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: 123456abcdef
+        tags: ${{ steps.meta.outputs.revision }}
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
